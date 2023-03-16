@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+    <title>Drawing App with Javascript</title>
+</head>
+<body>
+    <div class="container">
+        <section class="tool__board">
+            <div class="row">
+                <div class="burger">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </div>
+            <div class="row">
+                <label class="title">Shapes</label>
+                <ul class="options">
+                    <li class="option">
+                        <span class="option__button tool" id="circle">Circle</span>
+                    </li>
+                    <li class="option">
+                        <span class="option__button tool" id="rectangle">Rectangle</span>
+                    </li>
+                    <li class="option">
+                        <span class="option__button tool" id="triangle">Triangle</span>
+                    </li>
+                    <li class="option">
+                        <input type="checkbox" id="fillColor">
+                        <label for="fillColor">Fill Color</label>
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <label class="title">Options</label>
+                <ul class="options">
+                    <li class="option">
+                        <span class="option__button tool active" id="brush">Brush</span>
+                    </li>
+                    <li class="option">
+                        <span class="option__button tool" id="eraser">Eraser</span>
+                    </li>
+                    <li class="option">
+                        <label for="brush__slider" style="font-size: 1.2rem;">Brush Size</label>
+                        <input type="range" min="1" max="80" step="5" value="1" id="brush__slider">
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <label class="title">Colors</label>
+                <ul class="options colors">
+                    <li class="option">
+                        <input type="color" value="#fff" class="colorPicker">
+                    </li>
+                    <li class="option selected__color">
+                        <input type="color" value="#000" class="colorPicker">
+                    </li>
+                    <li class="option">
+                        <input type="color" value="#E02020" class="colorPicker">
+                    </li>
+                    <li class="option">
+                        <input type="color" value="#6DD400" class="colorPicker">
+                    </li>
+                    <li class="option">
+                        <input type="color" value="#4A98F7" class="colorPicker">
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <label class="title">-------------</label>
+                <div class="buttons">
+                    <button class="button clear__button">Clear Canvas</button>
+                    <button class="button save__button">Save As Image</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="drawing__board">
+            <canvas id="canvas1"></canvas>
+        </section>
+    </div>
+</body>
+</html>
