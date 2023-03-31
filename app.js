@@ -138,5 +138,10 @@ const app = () => {
         canvas.height = canvas.offsetHeight;
         setCanvasBackground();
     })
+    window.addEventListener('resize', () => {
+        // makes canvas responsive
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    })
 }
 app();
