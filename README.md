@@ -8,7 +8,9 @@
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?logo=javascript)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![HTML5 Canvas](https://img.shields.io/badge/Canvas-HTML5-E34F26?logo=html5)](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 
-[Live Demo](#) · [Report Bug](#) · [Request Feature](#)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Now-4CAF50?style=for-the-badge&logo=github)](https://mehrdadnka.github.io/Paint.js/)
+
+[Report Bug](#) · [Request Feature](#)
 
 </div>
 
