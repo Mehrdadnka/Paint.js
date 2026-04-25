@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="https://via.placeholder.com/800x200/4A90E2/FFFFFF?text=Pro+Drawing+Suite" alt="Pro Drawing Suite Banner" width="600"/>
-
 # 🎨 Pro Drawing Suite
 
 **A Professional, Browser-Based Drawing Application Built with Vanilla JavaScript**
