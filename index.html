@@ -5,83 +5,137 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="app.js" defer></script>
-    <title>Drawing App with Javascript</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Pro Drawing Suite</title>
 </head>
 <body>
-    <div class="container">
-        <section class="tool__board">
-            <div class="row">
-                <div class="burger">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
+    <div class="app-container">
+        <!-- Top Menu Bar -->
+        <nav class="top-menu">
+            <div class="menu-item">File</div>
+            <div class="menu-item">Edit</div>
+            <div class="menu-item">View</div>
+            <div class="menu-item">Help</div>
+            <div class="app-title">Pro Drawing Suite</div>
+        </nav>
+        
+        <div class="workspace">
+            <!-- Left Toolbar -->
+            <aside class="left-toolbar">
+                <!-- Drawing Tools -->
+                <div class="tool-section">
+                    <button class="tool-btn active" data-tool="brush" title="Brush (B)">
+                        <i class="fas fa-paint-brush"></i>
+                    </button>
+                    <button class="tool-btn" data-tool="eraser" title="Eraser (E)">
+                        <i class="fas fa-eraser"></i>
+                    </button>
+                    <button class="tool-btn" data-tool="rectangle" title="Rectangle (R)">
+                        <i class="far fa-square"></i>
+                    </button>
+                    <button class="tool-btn" data-tool="circle" title="Circle (C)">
+                        <i class="far fa-circle"></i>
+                    </button>
+                    <button class="tool-btn" data-tool="triangle" title="Triangle (T)">
+                        <i class="fas fa-play"></i>
+                    </button>
                 </div>
-            </div>
-            <div class="row">
-                <label class="title">Shapes</label>
-                <ul class="options">
-                    <li class="option">
-                        <span class="option__button tool" id="circle">Circle</span>
-                    </li>
-                    <li class="option">
-                        <span class="option__button tool" id="rectangle">Rectangle</span>
-                    </li>
-                    <li class="option">
-                        <span class="option__button tool" id="triangle">Triangle</span>
-                    </li>
-                    <li class="option">
+                
+                <div class="tool-divider"></div>
+                
+                <!-- History Controls (Undo/Redo) -->
+                <div class="history-controls">
+                    <button id="undoBtn" class="icon-btn" title="Undo (Ctrl+Z)" disabled>
+                        <i class="fas fa-undo"></i>
+                    </button>
+                    <button id="redoBtn" class="icon-btn" title="Redo (Ctrl+Shift+Z)" disabled>
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
+                
+                <div class="tool-divider"></div>
+                
+                <!-- Mini Color Palette -->
+                <div class="color-palette-mini">
+                    <div class="active-colors">
+                        <div class="color-swatch primary" style="background: #000000"></div>
+                        <div class="color-swatch secondary" style="background: #FFFFFF"></div>
+                    </div>
+                    <div class="color-grid">
+                        <!-- Dynamic color swatches will be inserted here by JavaScript -->
+                    </div>
+                </div>
+            </aside>
+            
+            <!-- Main Canvas Area -->
+            <main class="canvas-container">
+                <canvas id="canvas1"></canvas>
+                <div class="canvas-overlay">
+                    <!-- Overlay for transform handles, selection boxes, etc. -->
+                </div>
+            </main>
+            
+            <!-- Right Panels -->
+            <aside class="right-panels">
+                <!-- Panel Navigation Tabs -->
+                <div class="panel-tabs">
+                    <button class="panel-tab active" data-panel="properties">Properties</button>
+                    <button class="panel-tab" data-panel="layers">Layers</button>
+                    <button class="panel-tab" data-panel="history">History</button>
+                </div>
+                
+                <!-- Properties Panel -->
+                <div id="propertiesPanel" class="panel-content active">
+                    <div class="property-group">
+                        <label>Brush Size</label>
+                        <div class="slider-with-input">
+                            <input type="range" id="brush__slider" min="1" max="80" value="5">
+                            <input type="number" id="brushSizeInput" value="5" min="1" max="80">
+                        </div>
+                    </div>
+                    
+                    <div class="property-group">
+                        <label>Opacity</label>
+                        <div class="slider-with-input">
+                            <input type="range" id="opacitySlider" min="1" max="100" value="100">
+                            <span id="opacityValue">100%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="property-group">
+                        <label>Fill</label>
                         <input type="checkbox" id="fillColor">
-                        <label for="fillColor">Fill Color</label>
-                    </li>
-                </ul>
-            </div>
-            <div class="row">
-                <label class="title">Options</label>
-                <ul class="options">
-                    <li class="option">
-                        <span class="option__button tool active" id="brush">Brush</span>
-                    </li>
-                    <li class="option">
-                        <span class="option__button tool" id="eraser">Eraser</span>
-                    </li>
-                    <li class="option">
-                        <label for="brush__slider" style="font-size: 1.2rem;">Brush Size</label>
-                        <input type="range" min="1" max="80" step="5" value="1" id="brush__slider">
-                    </li>
-                </ul>
-            </div>
-            <div class="row">
-                <label class="title">Colors</label>
-                <ul class="options colors">
-                    <li class="option">
-                        <input type="color" value="#fff" class="colorPicker">
-                    </li>
-                    <li class="option selected__color">
-                        <input type="color" value="#000" class="colorPicker">
-                    </li>
-                    <li class="option">
-                        <input type="color" value="#E02020" class="colorPicker">
-                    </li>
-                    <li class="option">
-                        <input type="color" value="#6DD400" class="colorPicker">
-                    </li>
-                    <li class="option">
-                        <input type="color" value="#4A98F7" class="colorPicker">
-                    </li>
-                </ul>
-            </div>
-            <div class="row">
-                <label class="title">-------------</label>
-                <div class="buttons">
-                    <button class="button clear__button">Clear Canvas</button>
-                    <button class="button save__button">Save As Image</button>
+                    </div>
                 </div>
-            </div>
-        </section>
-
-        <section class="drawing__board">
-            <canvas id="canvas1"></canvas>
-        </section>
+                
+                <!-- Layers Panel -->
+                <div id="layersPanel" class="panel-content">
+                    <div class="layers-header">
+                        <span>Layers</span>
+                        <button id="addLayerBtn" class="icon-btn-small">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div id="layersList" class="layers-list">
+                        <!-- Dynamic layer items will be rendered here by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- History Panel -->
+                <div id="historyPanel" class="panel-content">
+                    <!-- History states list will be rendered here -->
+                </div>
+            </aside>
+        </div>
+        
+        <!-- Bottom Status Bar -->
+        <footer class="status-bar">
+            <span id="toolInfo">Brush • 5px • 100%</span>
+            <span id="canvasInfo">1920 × 1080</span>
+            <span id="zoomInfo">100%</span>
+        </footer>
     </div>
+    
+    <script src="app.js" type="module"></script>
 </body>
 </html>
