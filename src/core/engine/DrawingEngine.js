@@ -1,5 +1,5 @@
-import HistoryManager from "./HistoryManager.js";
-import { LayerManager } from "./Layers.js";
+import { HistoryManager } from "../history/HistoryManager.js";
+import { LayerManager } from "../../layers/Layers.js";
 
 export default class DrawingEngine {
     constructor(canvas) {
@@ -282,4 +282,4 @@ export default class DrawingEngine {
     restoreCanvasData(imageData) {
         this.ctx.putImageData(imageData, 0, 0);
     }
-          }
+}

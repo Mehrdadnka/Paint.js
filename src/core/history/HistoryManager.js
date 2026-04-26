@@ -1,4 +1,4 @@
-class HistoryManager {
+export class HistoryManager {
     constructor(engine) {
         this.engine = engine;
         this.undoStack = [];
@@ -60,5 +60,3 @@ class HistoryManager {
         return false;
     }
 }
-
-export default HistoryManager;

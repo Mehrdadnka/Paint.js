@@ -1,8 +1,9 @@
-import DrawingEngine from "./DrawingEngine.js";
-import { ToolbarManager } from "./ToolbarManager.js";
+import SafeDrawingEngine from "./core/engine/SafeDrawingEngine.js";
+import { ToolbarManager } from "./toolbar/ToolbarManager.js";
 
 class Application {
     constructor() {
+        this.safeEngine = null;
         this.engine = null;
         this.toolbar = null;
         this.init();
@@ -15,7 +16,13 @@ class Application {
             return;
         }
         
-        this.engine = new DrawingEngine(canvas);
+        // Create safe engine wrapper
+        this.safeEngine = new SafeDrawingEngine(canvas);
+        this.engine = this.safeEngine.engine;  // Get underlying engine
+        
+        // Set up error reporting
+        this.setupErrorReporting();
+
         this.toolbar = new ToolbarManager(this.engine);
         
         this.setupShortcuts();
@@ -43,15 +50,15 @@ class Application {
         
         modal.innerHTML = `
             <div style="
-                background: white;
+                background: #252526;
                 border-radius: 12px;
                 padding: 30px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.3);
                 max-width: 500px;
                 width: 90%;
             ">
-                <h2 style="margin: 0 0 10px 0; color: #333; font-size: 24px;">Choose Background</h2>
-                <p style="color: #666; margin: 0 0 20px 0;">Select background type for your new project:</p>
+                <h2 style="margin: 0 0 10px 0; color: #fff; font-size: 24px;">Choose Background</h2>
+                <p style="color: #999; margin: 0 0 20px 0;">Select background type for your new project:</p>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
                     <div class="bg-option" data-bg="transparent" style="
@@ -74,7 +81,7 @@ class Application {
                             border-radius: 4px;
                             margin-bottom: 10px;
                         "></div>
-                        <span style="font-weight: 600; color: #333;">Transparent</span>
+                        <span style="font-weight: 600; color: #888;">Transparent</span>
                         <br><span style="font-size: 12px; color: #666;">Checkerboard pattern</span>
                     </div>
                     
@@ -94,7 +101,7 @@ class Application {
                             border-radius: 4px;
                             margin-bottom: 10px;
                         "></div>
-                        <span style="font-weight: 600; color: #333;">White</span>
+                        <span style="font-weight: 600; color: #888;">White</span>
                         <br><span style="font-size: 12px; color: #666;">Solid white background</span>
                     </div>
                 </div>
@@ -179,7 +186,7 @@ class Application {
         });
         
         laterBtn.addEventListener('mouseenter', () => {
-            laterBtn.style.color = '#333';
+            laterBtn.style.color = '#777';
         });
         
         laterBtn.addEventListener('mouseleave', () => {
@@ -434,6 +441,52 @@ class Application {
         setTimeout(() => {
             document.addEventListener('click', handleClick);
         }, 0);
+    }
+    setupErrorReporting() {
+        this.safeEngine.onError('engine', (error) => {
+            console.warn('Engine error detected:', error.message);
+        });
+        
+        this.safeEngine.onError('canvas', (error) => {
+            console.warn('Canvas error detected:', error.message);
+        });
+        
+        this.safeEngine.onError('layer', (error) => {
+            console.warn('Layer error detected:', error.message);
+        });
+        
+        window.addEventListener('engine:reinitialize', () => {
+            console.log('Reinitializing engine...');
+            this.reinitializeEngine();
+        });
+        
+        window.addEventListener('layers:recover', () => {
+            console.log('Recovering layers...');
+            this.recoverLayers();
+        });
+    }
+    
+    reinitializeEngine() {
+        try {
+            const canvas = document.getElementById('canvas1');
+            this.safeEngine = new SafeDrawingEngine(canvas);
+            this.engine = this.safeEngine.engine;
+            this.toolbar = new ToolbarManager(this.engine);
+            console.log('✅ Engine reinitialized');
+        } catch (error) {
+            console.error('Failed to reinitialize engine:', error);
+        }
+    }
+    
+    recoverLayers() {
+        if (this.engine?.layerManager) {
+            try {
+                this.engine.layerManager.render();
+                console.log('✅ Layers recovered');
+            } catch (error) {
+                console.error('Failed to recover layers:', error);
+            }
+        }
     }
 }
 
